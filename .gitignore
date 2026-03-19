@@ -1,0 +1,16 @@
+# Here goes all the stuff that we DONT want to be pushed to our repository
+
+# Ignore the massive folders that Clion creates when it builds the code
+cmake-build-*/
+
+# Ignore Jettbrains/Clion internal settings
+.idea/
+
+# Ignore compiled files
+*.o
+*.out
+Main
+test
+
+# Ignore the data folder
+data/
