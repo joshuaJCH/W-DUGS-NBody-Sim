@@ -15,9 +15,12 @@ public:
     double ax;
     double ay;
 
+    //mass
+    double mass = 1;
+
     Body(double x, double y, double vx, double vy);  //constructor
 
-    void update(double dt); //function for thge=e next position
+    void update(double dt); //function for the next position
 };
 
 #endif

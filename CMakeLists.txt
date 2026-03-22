@@ -61,6 +61,7 @@ add_executable(main
         src/main.cpp
         src/body.cpp
         include/body.hpp
+        src/physics.cpp
 )
 
 # =========================================================
@@ -73,6 +74,7 @@ add_executable(tests
         test/test.cpp
         src/body.cpp
         include/body.hpp
+        src/physics.cpp
 )
 
 # This links the catch2 library to the 'test' program so it can run things like #REQUIRE" or "CHECK"
