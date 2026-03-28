@@ -1,6 +1,4 @@
-==========================
 Requirements for PyQtGraph
-==========================
 
 Step 1:
 Install Miniconda by creating an account here:
@@ -25,5 +23,7 @@ conda activate [your environment name]
 
 This will switch your current working environment to the activated one you named
 Then install PyQtGraph and its dependencies:
+
 pip install pyqtgraph
 pip install PyQt6
+pip install pandas

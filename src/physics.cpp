@@ -1,4 +1,5 @@
-#include "body.hpp"
+#include "../include/body.hpp"
+#include "../include/physics.hpp"
 #include <cmath>
 #include <cstdlib>
 

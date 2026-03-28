@@ -45,8 +45,8 @@ FetchContent_MakeAvailable(Catch2)
 # =========================================================
 
 # This tells the compiler "when you see a #include, look inside these folders to find the files"
-include_directories(src)
-include_directories(include)
+target_include_directories(main PRIVATE src include)
+target_include_directories(tests PRIVATE src include)
 
 # =========================================================================
 #                          TEAM: ADD NEW LOGIC FILES HERE
@@ -60,7 +60,7 @@ add_executable(main
         # ---- Add new files below this line ---
         src/main.cpp
         src/body.cpp
-        include/body.hpp
+        #include/body.hpp
         src/physics.cpp
 )
 
@@ -73,7 +73,7 @@ add_executable(main
 add_executable(tests
         test/test.cpp
         src/body.cpp
-        include/body.hpp
+        #include/body.hpp
         src/physics.cpp
 )
 
