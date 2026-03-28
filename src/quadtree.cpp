@@ -95,6 +95,8 @@ void QuadTree::insertBody(Node& node, const std::vector<Body>& bodies, int body_
     }
 
     if (node.isLeaf()) {
+        if (node.half_size < 1e-5){return;} //to fix the infinite division problkemem
+
         const int existing_body_index = node.body_index;
         node.body_index = -1;
         subdivide(node);

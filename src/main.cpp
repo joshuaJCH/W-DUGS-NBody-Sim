@@ -1,56 +1,49 @@
 #include <iostream>
 #include <chrono>
 #include <vector>
-#include <algorithm>
-#include <fstream>
-#include <physics.cpp>
+#include <string>
+#include "simulation.hpp"
 #include "body.hpp"
 
-// =========================================================
-// NOTES:
-// - run 'main' for the simulation
-// - run 'tests' for testing (the other things named "Catch/Catch2WithMain" are junk, just ignore)
-// =========================================================
 
+void timePhysicsEngine(Algorithm algo, const std::string& name, const std::vector<Body>& bodies) {
+    SimulationConfig config;
+    config.gravitational_constant = 1.0;
+    config.softening = 0.1;
+    config.time_step = 0.01;
+    config.theta = 0.5;
+    config.algorithm = algo;
 
+    Simulation sim(bodies, config);
 
-int main() { // Where the whole simulation will happen with loops and the action of the data structures
+    std::cout << "Running " << name << " physics engine... ";
 
-    //brute force loop to draw
-    Body body1(1,1,2,2);
-    Body body2(1,3,2,2);
-    Body body3(1,6,3,2);
-    Body body4(3,1,2,1);
-    Body body5(6,1,1,2);
-    Body body6(1,1,2,1);
+    auto start = std::chrono::high_resolution_clock::now();
+    sim.run(10);
+    auto end = std::chrono::high_resolution_clock::now();
 
-    std::vector<Body> bodies ={body1, body2, body3, body4, body5, body6};
+    std::chrono::duration<double, std::milli> duration = end - start;
+    std::cout << duration.count() << " milliseconds.\n";
+}
 
+int main() {
+    std::cout << "Loading 100k dataset...\n";
+    std::vector<Body> test_bodies = loadBodiesFromCsv("../100k_data");
 
-    std::ofstream outFile("simulation.csv");
-    outFile << "frame,x,y" << std::endl;
+    std::cout << "\n--- Physics Calculation Benchmark (10 time steps) ---\n";
 
-    //loop that makes all the frames
-    for (int i = 0 ; i < 1000 ; i++) {
+    // COMPARISON RUN
+    // timePhysicsEngine(Algorithm::BruteForce, "Brute Force", test_bodies);
+    timePhysicsEngine(Algorithm::BarnesHut, "QuadTree", test_bodies);
+    timePhysicsEngine(Algorithm::KDTree, "k-d Tree", test_bodies);
 
-        for (auto& body : bodies) { //reset accelerations so they dont grow out of control
-            body.ax = 0;
-            body.ay = 0;
-        }
+    // TO RUN THE SIMULATION: UNCOMMENT THESE LINES BELOW BUT COMMENT THE ONES ABOVE
 
-        //brute force it
-        for (int x = 0 ; x < bodies.size() ; x++) {
-            for (int y = 0 ; y < bodies.size() ; y++) {
-                if (x == y){continue;}
-                calculateForce(bodies[x], bodies[y]);
-            }
-        }
+    // SIMULATION RUN
+    // std::cout << "\nGenerating Animation Data for Warrick...\n";
+    // SimulationConfig video_config{1.0, 0.1, 0.01, 0.5, Algorithm::BarnesHut};
+    // Simulation(test_bodies, video_config).runWithSnapshots(100, 5, "demo_output.csv");
 
-        for (auto& body : bodies) {
-            body.update(0.01);
-            outFile << i << "," << body.x << "," << body.y << std::endl; //write the frame number, and the x,y coords of each body
-        }
-    }
-
+    std::cout << "---------------------------------------------------\n";
     return 0;
 }

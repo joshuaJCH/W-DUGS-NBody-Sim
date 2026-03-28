@@ -7,6 +7,7 @@
 #include <stdexcept>
 
 #include "quadtree.hpp"
+#include "kdtree.hpp"
 
 Simulation::Simulation(std::vector<Body> initial_bodies, const SimulationConfig& config)
     : bodies_(std::move(initial_bodies)),
@@ -45,6 +46,12 @@ const std::vector<Body>& Simulation::bodies() const {
 void Simulation::computeAccelerations() {
     if (config_.algorithm == Algorithm::BarnesHut) {
         QuadTree tree(bodies_, config_.softening);
+        tree.computeAccelerations(bodies_, config_.gravitational_constant, config_.theta, accelerations_);
+        return;
+    }
+
+    if (config_.algorithm == Algorithm::KDTree){
+        KDTree tree(bodies_, config_.softening);
         tree.computeAccelerations(bodies_, config_.gravitational_constant, config_.theta, accelerations_);
         return;
     }

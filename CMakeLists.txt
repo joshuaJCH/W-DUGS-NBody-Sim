@@ -62,6 +62,11 @@ add_executable(main
         src/body.cpp
         include/body.hpp
         src/physics.cpp
+        src/kdtree.cpp
+        include/kdtree.hpp
+        include/simulation.hpp
+        src/simulation.cpp
+        src/quadtree.cpp
 )
 
 # =========================================================
