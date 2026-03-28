@@ -1,26 +1,15 @@
 #ifndef W_DUGS_NBODY_SIM_BODY_HPP
 #define W_DUGS_NBODY_SIM_BODY_HPP
 
-class Body {
-public:
-    // position
+struct Body {
     double x;
     double y;
-
-    // velocity
     double vx;
     double vy;
+    double mass;
 
-    // acceleration
-    double ax;
-    double ay;
-
-    //mass
-    double mass = 1;
-
-    Body(double x, double y, double vx, double vy);  //constructor
-
-    void update(double dt); //function for the next position
+    Body();
+    Body(double x_pos, double y_pos, double x_vel, double y_vel, double body_mass);
 };
 
 #endif

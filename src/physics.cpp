@@ -1,44 +1,39 @@
-#include "body.hpp"
+#include "physics.hpp"
+
 #include <cmath>
-#include <cstdlib>
 
-/*            m1 * m2
- * F = G * ( -------- ) * r
- *             |r^3|
- *
- * This is the formula for the gravitational force between 2 objects.
- * We use this for the physics engine so each body knows what force is acting on it, so then it can move accordingly.
- *
- * F  == FORCE
- * G  == 1     (it's actually a veryy small number irl, so we use 1 here so it's simple)
- * m1 == mass of body 1
- * m2 == mass of body 2
- * r  == distance between body1 and body2
- *
- *
- */
+namespace {
 
-void calculateForce(Body& body1, Body& body2) {
-    //get masses and their product
-    double mass1 = body1.mass;
-    double mass2 = body2.mass;
-    double mass_product = mass1 * mass2;
+double softenedDistanceSquared(double dx, double dy, double softening) {
+    return dx * dx + dy * dy + softening * softening;
+}
 
-    //set Gravitational constant
-    int G = 1;
+}  // namespace
 
-    //calculate distance
-    double safeNum = 0.001; // using this so that we dont divide by 0 on accident
-    double delta_x = -(body1.x - body2.x);
-    double delta_y = -(body1.y - body2.y);
-    double r = std::sqrt( (delta_x * delta_x) + (delta_y * delta_y) + (safeNum * safeNum) );
+Acceleration makeZeroAcceleration() {
+    return {0.0, 0.0};
+}
 
-    //calculate force
-    double force_x = (G * mass_product *  r) * 1/(std::abs(r*r*r)) * (delta_x / r);
-    double force_y = (G * mass_product *  r) * 1/(std::abs(r*r*r)) * (delta_y / r);
+void computeBruteForceAccelerations(
+    const std::vector<Body>& bodies,
+    double gravitational_constant,
+    double softening,
+    std::vector<Acceleration>& accelerations) {
+    accelerations.assign(bodies.size(), makeZeroAcceleration());
 
-    // f = ma
-    // a = f/m
-    body1.ax += force_x / body1.mass;
-    body1.ay += force_y / body1.mass;
+    for (std::size_t i = 0; i < bodies.size(); ++i) {
+        for (std::size_t j = i + 1; j < bodies.size(); ++j) {
+            const double dx = bodies[j].x - bodies[i].x;
+            const double dy = bodies[j].y - bodies[i].y;
+            const double distance_squared = softenedDistanceSquared(dx, dy, softening);
+            const double inverse_distance = 1.0 / std::sqrt(distance_squared);
+            const double inverse_distance_cubed = inverse_distance * inverse_distance * inverse_distance;
+            const double scale = gravitational_constant * inverse_distance_cubed;
+
+            accelerations[i].ax += scale * bodies[j].mass * dx;
+            accelerations[i].ay += scale * bodies[j].mass * dy;
+            accelerations[j].ax -= scale * bodies[i].mass * dx;
+            accelerations[j].ay -= scale * bodies[i].mass * dy;
+        }
+    }
 }

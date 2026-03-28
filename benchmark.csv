@@ -1,0 +1,4 @@
+n,algorithm,steps,time_seconds
+100,brute_force,5,0.00172792
+1000,brute_force,5,0.3088
+10000,brute_force,5,16.1302

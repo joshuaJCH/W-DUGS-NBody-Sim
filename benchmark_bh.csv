@@ -1,0 +1,5 @@
+n,algorithm,steps,time_seconds
+100,barnes_hut,5,0.00290062
+1000,barnes_hut,5,0.0497894
+10000,barnes_hut,5,0.743098
+100000,barnes_hut,5,9.06687
