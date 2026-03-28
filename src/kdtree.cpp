@@ -64,6 +64,7 @@ std::unique_ptr<KDTree::Node> KDTree::buildTree(std::vector<int>& indices, const
         std::sort(indices.begin(), indices.end(), [&bodies](int a, int b) {
             return bodies[a].x < bodies[b].x;
         });
+
     } else {
         std::sort(indices.begin(), indices.end(), [&bodies](int a, int b) {
             return bodies[a].y < bodies[b].y;
@@ -81,7 +82,7 @@ std::unique_ptr<KDTree::Node> KDTree::buildTree(std::vector<int>& indices, const
     return node;
 }
 
-// --- 4. Center of Mass Logic (Post-order traversal) ---
+
 void KDTree::updateMassProperties(Node& node, const std::vector<Body>& bodies) {
     if (node.isLeaf()) {
         if (node.body_index >= 0) {
