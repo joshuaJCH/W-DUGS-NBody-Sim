@@ -27,3 +27,15 @@ Then install PyQtGraph and its dependencies:
 pip install pyqtgraph
 pip install PyQt6
 pip install pandas
+
+Step 4:
+In your IDE, change your interpreter to the Miniconda environment that you named earlier:
+
+For example, in VS Code:
+- Press Ctrl + Shift + P (Cmd + Shift + P on MacOS)
+- Under the Dropdown, click on "Python: Select Interpreter" 
+- Change the interpreter path to your named environment from earlier and confirm its change
+- Done!
+
+Step 5:
+In the terminal for your IDE, be sure to compile 
