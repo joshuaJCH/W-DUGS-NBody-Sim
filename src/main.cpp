@@ -26,12 +26,19 @@ int main() { // Where the whole simulation will happen with loops and the action
     Body body5(6,1,1,2);
     Body body6(1,1,2,1);
 
-    std::vector<Body> bodies ={body1, body2, body3, body4, body5, body6};
+    //Test vector
+    // std::vector<Body> bodies ={body1, body2, body3, body4, body5, body6};
 
+    //Simulation vector
     std::vector<Body> sim_bodies;
     std::srand(std::time(0)); // seed the random number generator
-    for(int i = 0 ; i < 1000 ; i++) {
-        sim_bodies.push_back(Body(rand() % 100, rand() % 100, rand() % 5, rand() % 5));
+    for(int i = 0 ; i < 100; i++) {
+        double x = (rand() % 100) - 50; // random x position between -50 and 50
+        double y = (rand() % 100) - 50; // random y position between -50 and 50
+
+        double vx = ((rand() % 100) - 50) / 10.0; // random x velocity between -5 and 5
+        double vy = ((rand() % 100) - 50) / 10.0; // random y velocity between -5 and 5
+        sim_bodies.push_back(Body(x, y, vx, vy));
     }
 
 
@@ -44,25 +51,25 @@ int main() { // Where the whole simulation will happen with loops and the action
     outFile << "frame,body_id,x,y,vx,vy,mass" << std::endl;
 
     //loop that makes all the frames
-    for (int i = 0 ; i < 1000 ; i++) {
+    for (int i = 0 ; i < 1000; i++) {
 
-        for (auto& body : bodies) { //reset accelerations so they dont grow out of control
-            body.ax = 0;
-            body.ay = 0;
-        }
+        // for (auto& body : bodies) { //reset accelerations so they dont grow out of control
+        //     body.ax = 0;
+        //     body.ay = 0;
+        // }
 
         for(auto& body : sim_bodies) { //reset accelerations so they dont grow out of control
             body.ax = 0;
             body.ay = 0;
         }
 
-        //brute force it
-        for (int x = 0 ; x < bodies.size() ; x++) {
-            for (int y = 0 ; y < bodies.size() ; y++) {
-                if (x == y){continue;}
-                calculateForce(bodies[x], bodies[y]);
-            }
-        }
+        // //brute force it
+        // for (int x = 0 ; x < bodies.size() ; x++) {
+        //     for (int y = 0 ; y < bodies.size() ; y++) {
+        //         if (x == y){continue;}
+        //         calculateForce(bodies[x], bodies[y]);
+        //     }
+        // }
 
         for (int x = 0 ; x < sim_bodies.size() ; x++) { //simulation bodies
             for (int y = 0 ; y < sim_bodies.size() ; y++) {
@@ -71,16 +78,18 @@ int main() { // Where the whole simulation will happen with loops and the action
             }
         }
 
-        int id = 0;
-        for (int j = 0 ; j < bodies.size() ; j++) {
-            bodies[j].update(0.01);
-            outFile << i << "," << j << "," << bodies[j].x << "," << bodies[j].y << "," << bodies[j].vx << "," << bodies[j].vy << "," << bodies[j].mass << std::endl; //write the frame number, and the x,y coords of each body
-            id++;
-        }
+        // int id = 0;
+        // for (int j = 0 ; j < bodies.size() ; j++) {
+        //     bodies[j].update(0.01);
+        //     outFile << i << "," << j << "," << bodies[j].x << "," << bodies[j].y << "," << bodies[j].vx << "," << bodies[j].vy << "," << bodies[j].mass << std::endl; //write the frame number, and the x,y coords of each body
+        //     id++;
+        // }
         
         for (int j = 0 ; j < sim_bodies.size() ; j++) {
             sim_bodies[j].update(0.01);
-            outFile << i << "," << j << "," << sim_bodies[j].x << "," << sim_bodies[j].y << "," << sim_bodies[j].vx << "," << sim_bodies[j].vy << "," << sim_bodies[j].mass << std::endl; //write the frame number, and the x,y coords of each body
+
+            //write the frame number, and the x,y coords of each body
+            outFile << i << "," << j << "," << sim_bodies[j].x << "," << sim_bodies[j].y << "," << sim_bodies[j].vx << "," << sim_bodies[j].vy << "," << sim_bodies[j].mass << std::endl; 
         }
     }
 
