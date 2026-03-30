@@ -75,6 +75,7 @@ Within the correct file path, type:
 python animation.py [output csv file name].csv
 
 The animation should open up in its separate window to visualize the Nbody Simulation at work! 
+https://github.com/user-attachments/assets/76cd25aa-82e5-49f4-a1e0-e44792ae988a 
 
 (Optional) Step 8:
 To test benchmarking with different bodies and algorithms, you can use the following command in your IDE terminal:
