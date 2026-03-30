@@ -1,4 +1,4 @@
-#include "simulation.hpp"
+#include "../include/simulation.hpp"
 
 #include <fstream>
 #include <iomanip>
@@ -6,8 +6,8 @@
 #include <random>
 #include <stdexcept>
 
-#include "quadtree.hpp"
-#include "kdtree.hpp"
+#include "../include/quadtree.hpp"
+#include "../include/kdtree.hpp"
 
 Simulation::Simulation(std::vector<Body> initial_bodies, const SimulationConfig& config)
     : bodies_(std::move(initial_bodies)),
@@ -173,5 +173,14 @@ std::vector<Body> loadBodiesFromCsv(const std::string& input_path) {
 }
 
 std::string algorithmName(Algorithm algorithm) {
-    return algorithm == Algorithm::BarnesHut ? "barnes_hut" : "brute_force";
+    switch (algorithm) {
+        case Algorithm::BruteForce:
+            return "brute_force";
+        case Algorithm::BarnesHut:
+            return "barnes_hut";
+        case Algorithm::KDTree:
+            return "kd_tree";
+        default:
+            return "unknown";
+    }
 }

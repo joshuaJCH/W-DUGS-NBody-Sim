@@ -3,16 +3,23 @@ from pyqtgraph.Qt import QtWidgets, QtCore
 import numpy as np
 import pandas as pd
 import os
+import sys
 
 # print("Directory:", os.getcwd())
-script_dir = os.path.dirname(os.path.abspath(__file__))
-file_path = os.path.join(script_dir, "simulation.csv")
+script_dir = os.path.dirname(os.path.abspath(__file__)) #make sure to get the directory of the script
+if len(sys.argv) > 1:
+    filename = sys.argv[1]
+else:
+    filename = "simulation.csv"  # default
+
+print("Loading file:", filename)
+file_path = os.path.join(script_dir, filename)
 sim = pd.read_csv(file_path)
 
 
 # unique body ids, frames, and particle count
 body_ids = sim["body_id"].unique()
-frames = [group[['x','y']].values for _, group in sim.groupby("frame")]
+frames = [group[['x','y']].values for _, group in sim.groupby("step")]
 num_bodies = len(body_ids)
 
 
@@ -45,7 +52,7 @@ def update():
 
 
 #set the mass of the particles and color them
-mass = sim.groupby("frame")["mass"].first().values
+mass = sim.groupby("step")["mass"].first().values
 brushes = [pg.mkBrush(255, 0, 255, 255) for _ in body_ids]  # same color for all
 scatter.setData(x=frames[0][:,0], y=frames[0][:,1], brush=brushes, size=3)
 

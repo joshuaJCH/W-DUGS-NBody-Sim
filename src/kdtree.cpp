@@ -1,4 +1,4 @@
-#include "kdtree.hpp"
+#include "../include/kdtree.hpp"
 #include <algorithm>
 #include <limits>
 #include "math.h"

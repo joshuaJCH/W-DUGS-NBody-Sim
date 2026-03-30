@@ -1,4 +1,4 @@
-#include "body.hpp"
+#include "../include/body.hpp"
 
 Body::Body() : x(0.0), y(0.0), vx(0.0), vy(0.0), mass(1.0) {}
 

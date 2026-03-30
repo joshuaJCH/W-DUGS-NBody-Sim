@@ -4,10 +4,12 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <cstdlib>
+#include <ctime>
 
-#include "simulation.hpp"
-#include "kdtree.hpp"
-#include "body.hpp"
+#include "../include/simulation.hpp"
+#include "../include/kdtree.hpp"
+#include "../include/body.hpp"
 
 namespace {
 
@@ -93,6 +95,10 @@ void runSimulationCommand(int argc, char** argv) {
         std::cout << " from " << bodies_path;
     }
     std::cout << ".\n";
+
+    // std::string command = "python animation.py " + output_path;
+    // std::cout << "\nRunning: " << command << std::endl;
+    // system(command.c_str());
 }
 
 void runGenerateCommand(int argc, char** argv) {
@@ -136,8 +142,8 @@ void printUsage() {
     std::cout
         << "Usage:\n"
         << "  ./nbody_sim generate [body_count] [output_csv] [seed]\n"
-        << "  ./nbody_sim simulate [brute_force|barnes_hut] [body_count] [steps] [snapshot_interval] [output_csv] [bodies_csv]\n"
-        << "  ./nbody_sim benchmark [brute_force|barnes_hut] [steps] [output_csv]\n";
+        << "  ./nbody_sim simulate [brute_force|barnes_hut|kd_tree] [body_count] [steps] [snapshot_interval] [output_csv] [bodies_csv]\n"
+        << "  ./nbody_sim benchmark [brute_force|barnes_hut|kd_tree] [steps] [output_csv]\n";
 }
 
 }  // namespace

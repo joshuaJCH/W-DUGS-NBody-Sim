@@ -1,4 +1,4 @@
-#include "quadtree.hpp"
+#include "../include/quadtree.hpp"
 
 #include <algorithm>
 #include <cmath>

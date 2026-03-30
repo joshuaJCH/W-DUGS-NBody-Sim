@@ -1,4 +1,4 @@
-#include "physics.hpp"
+#include "../include/physics.hpp"
 
 #include <cmath>
 
