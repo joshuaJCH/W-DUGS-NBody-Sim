@@ -1,4 +1,5 @@
 Requirements for PyQtGraph
+Video: https://youtu.be/ERP2DTlDTqw 
 
 Step 1:
 Install Miniconda by creating an account here:
